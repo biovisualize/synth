@@ -1,4 +1,16 @@
+legend {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
 input[type='range'] {
     margin-left: 10px;
     vertical-align: middle;
+}
+.field {
+    label {
+        display: inline-block;
+        font-size: 1.1rem;
+        min-width: 40px;
+    }
 }

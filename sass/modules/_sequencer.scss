@@ -17,7 +17,7 @@
     cursor: pointer;
     flex-grow: 1;
     height: 100%;
-    padding: 5px;
+
     &:first-child {
         border-left-width: 1px;
     }
@@ -25,18 +25,39 @@
         border-bottom: 15px orange solid;
     }
 
-    &.over { background-color: $colorGrey10; }
-    &:nth-child(2).over { background-color: $colorGrey20; }
-    &:nth-child(3).over { background-color: $colorGrey30; }
-    &:nth-child(4).over { background-color: $colorGrey40; }
-    &:nth-child(5).over { background-color: $colorGrey50; }
-    &:nth-child(6).over { background-color: $colorGrey40; }
-    &:nth-child(7).over { background-color: $colorGrey30; }
-    &:nth-child(8).over { background-color: $colorGrey20; }
-    &:nth-child(9).over { background-color: $colorGrey10; }
-    &:nth-child(5).over,
-    &:nth-child(6).over,
-    &:nth-child(7).over,
-    &:nth-child(8).over,
-    &:nth-child(9).over { color: $colorLight; }
+    &.over {
+        background-color: $colorGrey10;
+    }
+    
+    .frequency {
+        position: relative;
+        
+        label {
+            color: rgba($colorDark, .25);
+            font-size: 1rem;
+            font-weight: bold;
+            left: 5px;
+            opacity: 0;
+            margin-top: 15px;
+            position: absolute;
+            top: 2rem;
+            text-transform: uppercase;
+        }
+        input {
+            background: none;
+            border: 0;
+            font-size: 2rem;
+            padding: 5px;
+            width: 100%;
+        }
+    }
+    
+    &:hover {
+        .frequency label {
+            opacity: 1;
+        }
+        .frequency input {
+            border-bottom: 1px solid $colorGrey30;
+        }
+    }
 }

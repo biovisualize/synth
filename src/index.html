@@ -31,27 +31,56 @@
 
 <script id="drum-synth-template" type="template">
 
-    <%= displayName %><br>
-    Amp:<input type="range" class="param" name="amp" min="0" max="1" step="0.05"><br>
-
+    <fieldset>
+        <legend><%= displayName %></legend>
+        <div class="field">
+            <label for="fAmp">Amp</label>
+            <input type="range" class="param" id="fAmp" name="amp" min="0" max="1" step="0.05">
+        </div>
+    </fieldset>
 </script>
 
 <script id="mono-synth-template" type="template">
 
-    <%= displayName %><br>
-    Cutoff:<input type="range" class="param" name="cutoff" min="0" max="0.5" step="0.05"><br>
-    Resonance:<input type="range" class="param" name="resonance" min="0" max="5" step="0.5"><br>
-    Attack:<input type="range" class="param" name="attack" min="100" max="44000" step="2000"><br>
-    Decay:<input type="range" class="param" name="decay" min="1000" max="44000" step="2000"><br>
-    Glide:<input type="range" class="param" name="glide" min="0" max="1" step="1"><br>
-    Detune2:<input type="range" class="param" name="detune2" min="-1" max="4" step="0.1"><br>
-    Detune3:<input type="range" class="param" name="detune3" min="-1" max="1" step="0.05"><br>
-
+    <fieldset>
+        <legend><%= displayName %></legend>
+        <div class="field">
+            <label for="fCutoff">Cutoff</label>
+            <input type="range" class="param" id="fCutoff" name="cutoff" min="0" max="0.5" step="0.05">
+        </div>
+        <div class="field">
+            <label for="fResonance">Resonance</label>
+            <input type="range" class="param" id="fResonance" name="resonance" min="0" max="5" step="0.5">
+        </div>
+        <div class="field">
+            <label for="fAttack">Attack</label>
+            <input type="range" class="param" id="fAttack" name="attack" min="100" max="44000" step="2000">
+        </div>
+        <div class="field">
+            <label for="fDecay">Decay</label>
+            <input type="range" class="param" id="fDecay" name="decay" min="1000" max="44000" step="2000">
+        </div>
+        <div class="field">
+            <label for="fGlide">Glide</label>
+            <input type="range" class="param" id="fGlide" name="glide" min="0" max="1" step="1">
+        </div>
+        <div class="field">
+            <label for="fDetune2">Detune2</label>
+            <input type="range" class="param" id="fDetune2" name="detune2" min="-1" max="4" step="0.1">
+        </div>
+        <div class="field">
+            <label for="fDetune3">Detune3</label>
+            <input type="range" class="param" id="fDetune3" name="detune3" min="-1" max="1" step="0.05">
+        </div>
+    </fieldset>
 </script>
 
 <script id="step-template" type="template">
-
-    freq:<input type="number" class="param"  name="note" min="0" max="10000" step="100">
+    
+    <div class="frequency">
+        <label>Frequency</label>
+        <input type="number" class="param" name="note" min="0" max="10000" step="100">
+    </div>
 
 </script>
 
