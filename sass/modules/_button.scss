@@ -1,7 +1,13 @@
 .button {
+    background: $colorLight;
     border: 1px solid $colorGrey50;
     border-radius: $radius;
+    color: $colorGrey70;
     display: inline-block;
     font-weight: bold;
     padding: 5px;
+    
+    &:hover {
+        color: $colorDark;
+    }
 }

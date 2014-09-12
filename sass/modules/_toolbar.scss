@@ -1,8 +1,11 @@
 .toolbar {
-    height: 50px;
+    background: $colorGrey10;
+    height: $toolbarHeight;
+    padding: 10px;
     width: 100%;
     
     .button {
+        margin-right: 10px;
         min-width: 4em;
     }
 }

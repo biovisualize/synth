@@ -5,7 +5,7 @@ html, body, a, abbr, blockquote, button, div, em, fieldset, form, dl, dd, dt, h1
 ol, ul { list-style: none; }
 input, textarea { font-family: inherit; margin: 0; padding: 0; }
 textarea { overflow: auto; }
-img { height: auto; max-width: 100%; }
+input, img, textarea { max-width: 100%; }
 img, object { vertical-align: top; }
 canvas, iframe { display: block; }
 a:hover, a:active, button:hover, button:active, input:hover, input:active, embed, object { outline: 0; }
