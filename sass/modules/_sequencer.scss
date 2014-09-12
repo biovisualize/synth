@@ -1,0 +1,41 @@
+.seq-container {
+    border: 1px solid $colorGrey30;
+    bottom: 0;
+    position: absolute;
+    top: $toolbarHeight;
+    right: 0;
+    width: 50%;
+}
+.seq {
+    display: flex;
+    height: 100px;
+    width: 100%;
+}
+.step {
+    @include user-select(none);
+
+    background-color: $colorLight;
+    border: 1px solid $colorGrey30;
+    cursor: pointer;
+    height: 100%;
+    padding: 5px;
+
+    &.on {
+        border-bottom: 15px orange solid;
+    }
+
+    &.over { background-color: $colorGrey10; }
+    &:nth-child(2).over { background-color: $colorGrey20; }
+    &:nth-child(3).over { background-color: $colorGrey30; }
+    &:nth-child(4).over { background-color: $colorGrey40; }
+    &:nth-child(5).over { background-color: $colorGrey50; }
+    &:nth-child(6).over { background-color: $colorGrey60; }
+    &:nth-child(7).over { background-color: $colorGrey70; }
+    &:nth-child(8).over { background-color: $colorGrey80; }
+    &:nth-child(9).over { background-color: $colorGrey90; }
+    &:nth-child(5).over,
+    &:nth-child(6).over,
+    &:nth-child(7).over,
+    &:nth-child(8).over,
+    &:nth-child(9).over { color: $colorLight; }
+}
