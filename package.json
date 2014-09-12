@@ -1,0 +1,15 @@
+{
+    "name": "synth",
+    "version": "0.0.1",
+    "description": "Synth",
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.10.0",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-notify": "^0.3.1",
+        "grunt-sass": "^0.14.0",
+        "load-grunt-tasks": "^0.6.0",
+        "node-sass": "^0.9.3"
+    },
+    "engine": "node >= 0.8.1"
+}
