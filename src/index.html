@@ -3,73 +3,21 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Synth</title>
-    <script src="../lib/d3.js"></script>
-    <script src="../lib/jquery-2.0.0.js"></script>
-    <script src="../lib/underscore.js"></script>
-    <script src="../lib/backbone.js"></script>
-    <script src="../lib/gibber.lib.js"></script>
-    <script src="../lib/micropolar-v0.2.2.js"></script>
-    <style>
-        div{
-            border: 1px solid silver;
-            box-sizing: border-box;
-        }
-        .app-container{
-            width: 900px;
-            height: 850px;
-        }
-        .toolbar{
-            width: 100%;
-            height: 50px;
-        }
-        .seq-container{
-            width: 50%;
-            float: left;
-        }
-        .synth-container{
-            width: 50%;
-            float: left;
-        }
-        .chart-container{
-            width: 50%;
-            float: left;
-        }
-        .step-container{
-            width: 100%;
-            height: 100%;
-        }
-        .step-group{
-            width: 100%;
-            height: 50%;
-        }
-        .step{
-            width: 12%;
-            height: 100%;
-            float: left;
-            background-color: white;
-        }
-        .step.over{
-            border: red 3px solid;
-        }
-        .step.on{
-            border-bottom: 15px orange solid;
-        }
-        .synth{
-            width: 100%;
-            height: 50%;
-            float: left;
-        }
-        .seq{
-            height: 100px;
-        }
-    </style>
+    <!-- TODO: concatenate/minify to src/js -->
+    <script src="../scripts/lib/d3.js"></script>
+    <script src="../scripts/lib/jquery-2.0.0.js"></script>
+    <script src="../scripts/lib/underscore.js"></script>
+    <script src="../scripts/lib/backbone.js"></script>
+    <script src="../scripts/lib/gibber.lib.js"></script>
+    <script src="../scripts/lib/micropolar-v0.2.2.js"></script>
+    <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
 
 <script id="app-template" type="template">
 
     <div class="toolbar">
-        <button class="start">Start</button>
+        <button class="button start">Start</button>
         step duration:<input type="range" class="step-duration" min="1" max="500">
     </div>
     <div class="synth-container"></div>
@@ -402,7 +350,7 @@
         events: {
             'change .step-duration': function(e){ this.setStepDuration(e.target.value); },
             'click .start': function(){ this.toggleClock(); },
-            'click .disable': function(){ this.toggleClock(); }
+            'click .disable': function(){ this.toggleChartAnimation(); }
         },
         initialize: function(){
             var that = this;
@@ -429,6 +377,7 @@
                 that.$el.find('.seq-container').append(seqView.el);
             });
 
+            this.chartIsRunning = true;
             var chartConfig = {
                 data: [{
                     t: [0, 1],
@@ -446,12 +395,13 @@
             var chart = micropolar.Axis().config(chartConfig).render(this.$el.find('.chart').get(0));
 
             var fft = Gibber.Analysis.FFT(32, 32);
-            setInterval( function(){
+            setInterval(_.bind(function(){
+                if(!this.chartIsRunning){ return; }
                 var values = Array.apply( [], fft.values).sort(function(a, b){ return a-b; });
                 chartConfig.data[0].t = d3.range(values.length).map(function(d, i){ return i; });
                 chartConfig.data[0].r = values;
                 chart.config(chartConfig).render();
-            }, fft.updateRate*6);
+            }, this), fft.updateRate*6);
 
             this.listenTo(this.model, 'change:stepDuration', _.bind(function(model, value){
                 this.masterClock.start(value);
@@ -471,6 +421,9 @@
         toggleClock: function(){
             if(this.masterClock.isRunning()){ this.stop(); }
             else{ this.start(); }
+        },
+        toggleChartAnimation: function(){
+            this.chartIsRunning = !this.chartIsRunning;
         }
     });
 

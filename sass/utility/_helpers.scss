@@ -1,0 +1,33 @@
+/* - contain floats - */
+@mixin contain-floats {
+    &:after {
+        clear: both;
+        content: '.';
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+}
+
+/* - image replacement - */
+@mixin ir {
+    display: block;
+    overflow: hidden;
+    text-indent: -9999px;
+    white-space: nowrap;
+}
+
+/* - middle alignment - */
+@mixin align-middle {
+    @include transform(translateY(-50%));
+    
+    position: relative;
+    top: 50%;
+}
+
+/* - clip text with ellipsis - */
+@mixin clip-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
