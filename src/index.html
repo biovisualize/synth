@@ -349,7 +349,11 @@
     var AppView = Backbone.View.extend({
         events: {
             'change .step-duration': function(e){ this.setStepDuration(e.target.value); },
-            'click .start': function(){ this.toggleClock(); },
+            'click .start': function(e){
+                    var text = ( $(e.currentTarget).text() === 'Start' ) ? 'Stop' : 'Start';
+                    $(e.currentTarget).text(text);
+                    this.toggleClock();
+            },
             'click .disable': function(){ this.toggleChartAnimation(); }
         },
         initialize: function(){
