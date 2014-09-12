@@ -226,7 +226,8 @@
 
         events: {
             'mousedown': 'toggleState',
-            'change .param': function(e){ this.setParam(e.target.name, +e.target.value) }
+            'change .param': function(e){ this.setParam(e.target.name, +e.target.value) },
+            'mousedown .param': function(e){ e.stopPropagation(); }
         },
         initialize: function(){
             var template =_.template($('#step-template').html(), {} );
