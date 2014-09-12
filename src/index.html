@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Synth</title>
+    <script src="../lib/d3.js"></script>
+    <script src="../lib/jquery-2.0.0.js"></script>
+    <script src="../lib/underscore.js"></script>
+    <script src="../lib/backbone.js"></script>
+    <script src="../lib/gibber.lib.js"></script>
+    <style>
+        div{
+            border: 1px solid silver;
+            box-sizing: border-box;
+        }
+        .app-container{
+            width: 900px;
+            height: 850px;
+        }
+        .toolbar{
+            width: 100%;
+            height: 50px;
+        }
+        .seq-container{
+            width: 50%;
+            height: 800px;
+            float: left;
+        }
+        .synth-container{
+            width: 50%;
+            float: left;
+        }
+        .step-container{
+            width: 100%;
+            height: 100%;
+        }
+        .step-group{
+            width: 100%;
+            height: 50%;
+        }
+        .step{
+            width: 12%;
+            height: 100%;
+            float: left;
+            background-color: white;
+        }
+        .step.over{
+            border: red 3px solid;
+        }
+        .step.on{
+            border-bottom: 15px orange solid;
+        }
+        .synth{
+            width: 100%;
+            height: 50%;
+            float: left;
+        }
+        .seq{
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<script id="app-template" type="template">
+
+    <div class="toolbar">
+        <button class="start">Start</button>
+        step duration:<input type="range" class="step-duration" min="1" max="500">
+    </div>
+    <div class="synth-container"></div>
+    <div class="seq-container"></div>
+
+</script>
+
+<script id="drum-synth-template" type="template">
+
+    <%= displayName %><br>
+    Amp:<input type="range" class="param" name="amp" min="0" max="1" step="0.05"><br>
+
+</script>
+
+<script id="mono-synth-template" type="template">
+
+    <%= displayName %><br>
+    Cutoff:<input type="range" class="param" name="cutoff" min="0" max="0.5" step="0.05"><br>
+    Resonance:<input type="range" class="param" name="resonance" min="0" max="5" step="0.5"><br>
+    Attack:<input type="range" class="param" name="attack" min="100" max="44000" step="2000"><br>
+    Decay:<input type="range" class="param" name="decay" min="1000" max="44000" step="2000"><br>
+    Glide:<input type="range" class="param" name="glide" min="0" max="1" step="1"><br>
+    Detune2:<input type="range" class="param" name="detune2" min="-1" max="4" step="0.1"><br>
+    Detune3:<input type="range" class="param" name="detune3" min="-1" max="1" step="0.05"><br>
+
+</script>
+
+<script id="step-template" type="template">
+
+    freq:<input type="number" class="param"  name="note" min="0" max="10000" step="100">
+
+</script>
+
+<div class="app-container"></div>
+
+<script>
+
+    Gibber.init();
+
+    // Step Collection and Model
+    //-------------------------------------------------------------------
+
+    var StepModel = Backbone.Model.extend({
+        defaults:{
+            synth: null,
+            note: null,
+            isOver: false,
+            isOn: false
+        }
+    });
+
+    var StepCollection = Backbone.Collection.extend({
+        model: StepModel
+    });
+
+
+    // Synth, Seq and App Models
+    //-------------------------------------------------------------------
+
+    var SynthModel = Backbone.Model.extend({
+        defaults: {
+            synth: null,
+            amp: 0.5,
+            decay: 1,
+            note: 440
+        }
+    });
+
+    var SeqModel = Backbone.Model.extend({
+        defaults: {
+            notes: [],
+            amps: []
+        }
+    });
+
+    var AppModel = Backbone.Model.extend({
+        defaults: {
+            stepDuration: 200
+        }
+    });
+
+
+    // SynthSeq Collection and Model
+    //-------------------------------------------------------------------
+
+    var SynthSeqModel = Backbone.Model.extend({
+        defaults: {
+            synthModel: null,
+            seqModel: null
+        }
+    });
+
+    var SynthSeqCollection = Backbone.Collection.extend({
+        model: SynthSeqModel,
+        loadDefaults: function(){
+
+            // Hat
+            var synthModel1 = new SynthModel({
+                synth: Gibber.Percussion.Hat(),
+                amp: 0.7,
+                decay: 1,
+                defaultNote: 1000,
+                templateSelector: '#drum-synth-template',
+                displayName: 'Hi-Hat'
+            });
+            var seqModel1 = new SeqModel({
+                notes: [0, 20000, 1000, 2200, 1000, 20000, 0, 100000],
+                amps: [0, 0.5, 0, 1, 0, 0.5, 0, 1]
+            });
+            var synthSeqModel1 = new SynthSeqModel({
+                synthModel: synthModel1,
+                seqModel: seqModel1
+            });
+
+            // Kick
+            var synthModel2 = new SynthModel({
+                synth: Gibber.Percussion.Kick(),
+                amp: 0.7,
+                decay: 0.01,
+                defaultNote: 110,
+                templateSelector: '#drum-synth-template',
+                displayName: 'Kick'
+            });
+            var seqModel2 = new SeqModel({
+                notes: [100, 0, 150, 0, 100, 0, 150, 150],
+                amps: [0.5, 0, 1, 0, 0.5, 0, 1, 0]
+            });
+            var synthSeqModel2 = new SynthSeqModel({
+                synthModel: synthModel2,
+                seqModel: seqModel2
+            });
+
+            // Mono
+            var synthModel3 = new SynthModel({
+                synth: Gibber.Synths.Mono(),
+                defaultNote: 220,
+                frequency: 440,
+                amp: 0.1,
+                attack: 100,
+                decay: 10000,
+                glide: 0.5,
+                waveform: 'Saw',
+                cutoff: 0.05,
+                resonance: 1,
+                detune2: 0,
+                detune3: 1,
+                templateSelector: '#mono-synth-template',
+                displayName: 'Mono Synth'
+            });
+            var seqModel3 = new SeqModel({
+                notes: [0, 0, 100, 0, 200, 0, 0, 300],
+                amps: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.5]
+            });
+            var synthSeqModel3 = new SynthSeqModel({
+                synthModel: synthModel3,
+                seqModel: seqModel3
+            });
+
+            this.reset([synthSeqModel1, synthSeqModel2, synthSeqModel3]);
+//            this.reset([synthSeqModel1]);
+        }
+    });
+
+
+    // StepView
+    //-------------------------------------------------------------------
+
+    var counter = 0;
+    var StepView = Backbone.View.extend({
+
+        className: function(){ return 'step '+(counter++); },
+
+        events: {
+            'mousedown': 'toggleState',
+            'change .param': function(e){ this.setParam(e.target.name, +e.target.value) }
+        },
+        initialize: function(){
+            var template =_.template($('#step-template').html(), {} );
+            this.$el.html(template);
+
+            var that = this;
+            this.synthModel = this.model.get('synthModel');
+
+            this.listenTo(this.model, 'change:isOver', function(model, isOver){
+                that.toggleOver(isOver);
+
+                var note = that.model.get('note');
+                var amp = that.model.get('amp') || 0.5;
+                if(isOver && note !== 0){
+                    that.synthModel.get('synth').note(note, amp);
+                }
+            });
+            this.listenTo(this.model, 'change:isOn', function(model, isOn){
+                that.toggleOn(isOn);
+            });
+
+            this.toggleOn(this.model.get('isOn'));
+        },
+        toggleOver: function(isOver){
+            this.$el.toggleClass('over', isOver);
+        },
+        toggleState: function(){
+            var isOn = !this.model.get('isOn');
+            this.model.set({isOn: isOn});
+            var defaultNote = this.synthModel.get('defaultNote');
+            this.model.set({'note': isOn ? defaultNote : 0});
+        },
+        toggleOn: function(isOn){
+            this.$el.toggleClass('on', isOn);
+        },
+        setParam: function(name, value){
+            if(typeof this.model.get(name) !== 'undefined'){
+                this.model.set(name, value);
+            }
+        }
+    });
+
+
+    // SynthView
+    //-------------------------------------------------------------------
+
+    var SynthView = Backbone.View.extend({
+
+        className: 'synth',
+
+        events: {
+            'input .param': function(e){
+                this.assignFormValuesToSynth(e.target.name, +e.target.value);
+            }
+        },
+        initialize: function(){
+            var template =_.template($(this.model.get('templateSelector')).html())({displayName: this.model.get('displayName')});
+            this.$el.html(template);
+
+            this.synth = this.model.get('synth');
+            this.assignModelValuesToSynth();
+        },
+        assignModelValuesToSynth: function(){
+            _.each(this.model.toJSON(), _.bind(function(value, name){
+                this.setParam(name, value);
+            }, this));
+        },
+        assignFormValuesToSynth: function(name, value){
+            this.model.set(name, value);
+            this.setParam(name, value);
+        },
+        setParam: function(name, value){
+            if(this.synth[name] && name !== 'note'){
+                this.synth[name] = value;
+            }
+        }
+    });
+
+
+    // SeqView
+    //-------------------------------------------------------------------
+
+    var SeqView = Backbone.View.extend({
+
+        className: 'seq',
+
+        events: {
+            'click .seq-button': 'changeStepState'
+        },
+        initialize: function(options){
+            var that = this;
+
+            this.seqModel = this.model.get('seqModel');
+            this.stepCollection = new StepCollection();
+
+            this.seqModel.get('notes').forEach(function(d, i){
+
+                var stepModel = new StepModel({
+                    synthModel: that.model.get('synthModel'),
+                    note: d,
+                    amp:  that.seqModel.get('amps')[i],
+                    isOn: (d !== 0)
+                });
+                that.stepCollection.add(stepModel);
+
+                var stepView = new StepView({model: stepModel});
+                that.$el.append(stepView.el);
+            });
+
+            var stepCounter = 0;
+            this.listenTo(options.clock, 'clock:tick', function(){
+
+                var frequencies = this.seqModel.get('notes');
+                var step = stepCounter++ % frequencies.length;
+
+                this.stepCollection.each(function(model, i){
+                    model.set({'isOver': step === i});
+                });
+            });
+        }
+    });
+
+
+    // Clock
+    //-------------------------------------------------------------------
+
+    var MasterClock = function(){
+        var eventer = _.extend({}, Backbone.Events);
+
+        eventer.start = function(interval){
+            if(this.timer){ eventer.stop(); }
+            eventer.trigger('clock:tick', new Date().getTime());
+            this.timer = setInterval(function(){ eventer.trigger('clock:tick', new Date().getTime()); }, interval || 1000);
+        };
+        eventer.stop = function(interval){
+            clearInterval(this.timer);
+            delete this.timer;
+        };
+        eventer.isRunning = function(interval){
+            return !!this.timer;
+        };
+
+        return eventer;
+    };
+
+
+    // App
+    //-------------------------------------------------------------------
+
+    var AppView = Backbone.View.extend({
+        events: {
+            'change .step-duration': function(e){ this.setStepDuration(e.target.value); }
+        },
+        initialize: function(){
+            var that = this;
+
+            var template =_.template($('#app-template').html(), {} );
+            this.$el.html(template);
+
+            this.model = new AppModel();
+            this.masterClock = new MasterClock();
+            this.synthSeqCollection = new SynthSeqCollection();
+            this.synthSeqCollection.loadDefaults();
+
+            this.synthSeqCollection.each(function(SynthSeqModel, i){
+
+                var synthView = new SynthView({
+                    model: SynthSeqModel.get('synthModel')
+                });
+                that.$el.find('.synth-container').append(synthView.el);
+
+                var seqView = new SeqView({
+                    model: SynthSeqModel,
+                    clock: that.masterClock
+                });
+                that.$el.find('.seq-container').append(seqView.el);
+            });
+
+            this.listenTo(this.model, 'change:stepDuration', _.bind(function(model, value){
+                this.masterClock.start(value);
+            }, this));
+
+            this.start();
+        },
+        setStepDuration: function(duration){
+            this.model.set({'stepDuration': duration});
+        },
+        start: function(){
+            this.masterClock.start(this.model.get('stepDuration'));
+        },
+        stop: function(){
+            this.masterClock.stop();
+        },
+        toggleClock: function(){
+            if(this.masterClock.isRunning()){ this.stop(); }
+            else{ this.start(); }
+        }
+    });
+
+    var appView = new AppView({el: '.app-container'});
+
+    $('.start').on('mousedown', function(){
+        appView.toggleClock();
+    });
+
+
+</script>
+</body>
+
+</html>
