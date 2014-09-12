@@ -1,0 +1,14 @@
+*, *:before, *:after {
+    @include box-sizing(border-box);
+}
+html, body, a, abbr, blockquote, button, div, em, fieldset, form, dl, dd, dt, h1, h2, h3, h4, h5, h6, hr, iframe, img, label, legend, li, object, ol, p, span, strong, table, td, th, tr, ul { background: no-repeat 0 0; border: 0; margin: 0; padding: 0; vertical-align: baseline; }
+ol, ul { list-style: none; }
+input, textarea { font-family: inherit; margin: 0; padding: 0; }
+textarea { overflow: auto; }
+img { height: auto; max-width: 100%; }
+img, object { vertical-align: top; }
+canvas, iframe { display: block; }
+a:hover, a:active, button:hover, button:active, input:hover, input:active, embed, object { outline: 0; }
+button { color: inherit; cursor: pointer; font-family: inherit; -webkit-appearance: none; }
+button[disabled] { cursor: default; }
+button::-moz-focus-inner, input[type='submit']::-moz-focus-inner { border: 0; padding: 0; }

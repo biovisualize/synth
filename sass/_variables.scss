@@ -1,0 +1,35 @@
+$imgDir: '../images/';
+$fontDir: '../fonts/';
+
+
+/* -- base colors -- */
+$colorLight: #fff;
+$colorDark: #000;
+$colorGrey10: #f2f3f4;
+$colorGrey20: #dadedf;
+$colorGrey30: #c1c7c9;
+$colorGrey40: #a7afb2;
+$colorGrey50: #8c979a;
+$colorGrey60: #6f7c80;
+$colorGrey70: #555f61;
+$colorGrey80: #373d3f;
+$colorGrey90: #131516;
+
+
+/* -- common colors -- */
+$bodyColor: $colorLight;
+$textColor: $colorGrey90;
+
+
+/* -- values -- */
+$radius: 4px;
+
+
+/* -- dimensions -- */
+$navHeight: 6.3rem;
+$footerHeight: 4rem;
+$controlHeight: 3.5rem;
+
+
+/* -- transitions -- */
+$transitionTime: 200ms;

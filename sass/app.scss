@@ -1,49 +1,19 @@
-div{
-    border: 1px solid silver;
-    box-sizing: border-box;
-}
-.app-container{
-    width: 900px;
-    height: 850px;
-}
-.toolbar{
-    width: 100%;
-    height: 50px;
-}
-.seq-container{
-    width: 50%;
-    height: 800px;
-    float: left;
-}
-.synth-container{
-    width: 50%;
-    float: left;
-}
-.step-container{
-    width: 100%;
-    height: 100%;
-}
-.step-group{
-    width: 100%;
-    height: 50%;
-}
-.step{
-    width: 12%;
-    height: 100%;
-    float: left;
-    background-color: white;
-}
-.step.over{
-    border: red 3px solid;
-}
-.step.on{
-    border-bottom: 15px orange solid;
-}
-.synth{
-    width: 100%;
-    height: 50%;
-    float: left;
-}
-.seq{
-    height: 100px;
-}
+@import 'variables';
+@import 'mixins';
+
+/* - utility - */
+@import 'utility/fonts';
+@import 'utility/reset';
+@import 'utility/helpers';
+@import 'utility/animations';
+
+/* - modules - */
+@import 'modules/elements';
+@import 'modules/form';
+@import 'modules/button';
+@import 'modules/chart';
+@import 'modules/dropdown';
+@import 'modules/tooltip';
+
+/* - base - */
+@import 'base';

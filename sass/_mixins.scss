@@ -1,0 +1,181 @@
+
+/* -- CSS3 properties -- */
+
+/* - backface - */
+@mixin backface-visibility( $visibility ) {
+    -ms-backface-visibility: $visibility;
+    -webkit-backface-visibility: $visibility;
+    backface-visibility: $visibility;
+}
+
+/* - box-sizing - */
+@mixin box-sizing( $sizing ) {
+    -moz-box-sizing: $sizing;
+    box-sizing: $sizing;
+}
+
+/* - gradient - */
+@mixin linear-gradient( $gradient... ) {
+    background-image: -ms-linear-gradient($gradient);
+    background-image: -webkit-linear-gradient($gradient);
+    background-image: linear-gradient($gradient);
+}
+@mixin radial-gradient( $gradient... ) {
+    background-image: -ms-radial-gradient($gradient);
+    background-image: -webkit-radial-gradient($gradient);
+    background-image: radial-gradient($gradient);
+}
+
+/* - animation - */
+@mixin animation-name( $name ) {
+    -o-animation-name: $name;
+    -moz-animation-name: $name;
+    -webkit-animation-name: $name;
+    animation-name: $name;
+}
+@mixin animation-delay( $delay ) {
+    -o-animation-delay: $delay;
+    -moz-animation-delay: $delay;
+    -webkit-animation-delay: $delay;
+    animation-delay: $delay;
+}
+@mixin animation-duration( $duration ) {
+    -o-animation-duration: $duration;
+    -moz-animation-duration: $duration;
+    -webkit-animation-duration: $duration;
+    animation-duration: $duration;
+}
+@mixin animation-timing-function( $timing ) {
+    -o-animation-timing-function: $timing;
+    -moz-animation-timing-function: $timing;
+    -webkit-animation-timing-function: $timing;
+    animation-timing-function: $timing;
+}
+@mixin animation-iteration-count( $count ) {
+    -o-animation-iteration-count: $count;
+    -moz-animation-iteration-count: $count;
+    -webkit-animation-iteration-count: $count;
+    animation-iteration-count: $count;
+}
+@mixin animation-direction( $direction ) {
+    -o-animation-direction: $direction;
+    -moz-animation-direction: $direction;
+    -webkit-animation-direction: $direction;
+    animation-direction: $direction;
+}
+@mixin animation-fill-mode( $fill ) {
+    -o-animation-fill-mode: $fill;
+    -moz-animation-fill-mode: $fill;
+    -webkit-animation-fill-mode: $fill;
+    animation-fill-mode: $fill;
+}
+@mixin animation-play-state( $state ) {
+    -o-animation-play-state: $state;
+    -moz-animation-play-state: $state;
+    -webkit-animation-play-state: $state;
+    animation-play-state: $state;
+}
+@mixin animation( $animation ) {
+    -o-animation: $animation;
+    -moz-animation: $animation;
+    -webkit-animation: $animation;
+    animation: $animation;
+}
+
+/* - keyframes - */
+@mixin keyframes( $name ) {
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+    @-moz-keyframes #{$name} {
+        @content;
+    }
+    @-ms-keyframes #{$name} {
+        @content;
+    }
+    @keyframes #{$name} {
+        @content;
+    }
+}
+
+/* - perspective - */
+@mixin perspective( $perspective ) {
+    -moz-perspective: $perspective;
+    -webkit-perspective: $perspective;
+    perspective: $perspective;
+}
+
+/* - transform - */
+@mixin transform( $transform... ) {
+    -ms-transform: $transform;
+    -webkit-transform: $transform;
+    transform: $transform;
+}
+@mixin transform-origin ( $origin ) {
+    -ms-transform-origin: $origin;
+    -webkit-transform-origin: $origin;
+    transform-origin: $origin;
+}
+@mixin transform-style ( $style ) {
+    -ms-transform-style: $style;
+    -webkit-transform-style: $style;
+    transform-style: $style;
+}
+
+/* - transition - */
+@mixin transition( $transition... ) {
+    -webkit-transition: $transition;
+    transition: $transition;
+}
+@mixin transition-delay( $delay ) {
+    -webkit-transition-delay: $delay;
+    transition-delay: $delay;
+}
+@mixin transition-transform( $transition... ) {
+    -webkit-transition: -webkit-transform $transition;
+    transition: transform $transition;
+}
+
+/* - user-select - */
+@mixin user-select( $select ) {
+    -moz-user-select: $select;
+    -ms-user-select: $select;
+    -webkit-user-select: $select;
+    user-select: $select;
+}
+
+
+/* -- psuedo elements -- */
+@mixin fullscreen {
+    :-moz-full-screen & {
+        @content;
+    }
+    :-webkit-full-screen & {
+        @content;
+    }
+    :full-screen & {
+        @content;
+    }
+}
+@mixin placeholder {
+    &::-moz-placeholder {
+        @content;
+    }
+    &:-ms-input-placeholder {
+        @content;
+    }
+    &::-webkit-input-placeholder {
+        @content;
+    }
+    &::placeholder {
+        @content;
+    }
+}
+@mixin selection {
+    ::-moz-selection {
+        @content;
+    }
+    ::selection {
+        @content;
+    }
+}

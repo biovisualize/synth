@@ -1,0 +1,88 @@
+* {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+html, body {
+    height: 100%;
+}
+html {
+    @include font-family-sans-serif;
+    
+    font-size: 10px;
+    line-height: 1.8em;
+}
+body {
+    background: $bodyColor;
+    color: $textColor;
+    font-size: 1.2rem;
+    min-width: 320px;
+    overflow-y: scroll;
+
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    
+    /* keep document scroll visible, but disabled to improve layout shifting */
+    &.no-scroll {
+        bottom: 0;
+        left: 0;
+        overflow-y: scroll;
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
+}
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+a:hover {
+    text-decoration: none;
+}
+h1, h2, h3, h4 {
+    margin-bottom: .25em;
+    line-height: 1.25;
+}
+h1 {
+    font-size: 40px;
+}
+h2 {
+    font-size: 30px;
+}
+h3 {
+    font-size: 26px;
+}
+h4 {
+    font-size: 22px;
+}
+h5 {
+    font-size: 18px;
+}
+h6 {
+    font-size: 15px;
+}
+p {
+    margin: 0 0 1em;
+}
+
+/* - elements: pseudo - */
+@include selection {
+    background-color: rgba(0, 0, 0, .5);
+    color: #fff;
+}
+
+/* - custom scrollbar - */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: $colorLight;
+    box-shadow: 0 0 2px rgba($colorDark, .5) inset;
+    border: 1px solid $colorLight;
+}
+::-webkit-scrollbar-thumb {
+    background: darken($colorLight, 30);
+    border: 1px solid $colorLight;
+    border-radius: 4px;
+}
