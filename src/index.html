@@ -394,6 +394,8 @@
     var appView = new AppView({el: '.app-container'});
 
     $('.start').on('mousedown', function(){
+        var text = ( $(this).text() === 'Start' ) ? 'Stop' : 'Start';
+        $(this).text(text);
         appView.toggleClock();
     });
 
