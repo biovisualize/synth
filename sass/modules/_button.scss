@@ -11,3 +11,14 @@
         color: $colorDark;
     }
 }
+.button--onoff {
+    border-radius: 100%;
+    height: 4rem;
+    text-transform: uppercase;
+    width: 4rem;
+    
+    &.on {
+        background-color: $colorDark;
+        color: $colorLight;
+    }
+}

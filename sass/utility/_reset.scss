@@ -12,3 +12,8 @@ a:hover, a:active, button:hover, button:active, input:hover, input:active, embed
 button { color: inherit; cursor: pointer; font-family: inherit; -webkit-appearance: none; }
 button[disabled] { cursor: default; }
 button::-moz-focus-inner, input[type='submit']::-moz-focus-inner { border: 0; padding: 0; }
+
+/* @TODO: fix this later */
+*:focus {
+    outline: none;
+}

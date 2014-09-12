@@ -7,17 +7,15 @@
 }
 .seq-container {
     bottom: 0;
+    left: 350px;
     position: absolute;
     top: $toolbarHeight;
     right: 0;
-    width: 70%;
 }
 .synth-container {
-    width: 30%;
-    float: left;
+    width: 350px;
 }
-.synth {
-    width: 100%;
-    float: left;
+.synth,
+.chart-container {
     padding: 10px;
 }

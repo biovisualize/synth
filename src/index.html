@@ -17,13 +17,14 @@
 <script id="app-template" type="template">
 
     <div class="toolbar">
-        <button class="button start">Stop</button>
-        step duration:<input type="range" class="step-duration" min="1" max="500">
+        <button class="button button--onoff start on">On</button>
+        <label for="fStepDuration">step duration</label>
+        <input type="range" class="step-duration" id="fStepDuration" min="1" max="500">
     </div>
     <div class="synth-container"></div>
     <div class="seq-container"></div>
     <div class="chart-container">
-        <button class="disable">Disable</button>
+        <button class="button disable">Disable Chart</button>
         <div class="chart"></div>
     </div>
 
@@ -379,9 +380,9 @@
         events: {
             'change .step-duration': function(e){ this.setStepDuration(e.target.value); },
             'click .start': function(e){
-                    var text = ( $(e.currentTarget).text() === 'Start' ) ? 'Stop' : 'Start';
-                    $(e.currentTarget).text(text);
-                    this.toggleClock();
+                var text = ( $(e.currentTarget).text() === 'On' ) ? 'Off' : 'On';
+                $(e.currentTarget).toggleClass('on').text(text);
+                this.toggleClock();
             },
             'click .disable': function(){ this.toggleChartAnimation(); }
         },
