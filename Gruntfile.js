@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                     outputStyle: 'compact'
                 },
                 files: {
-                    'src/css/app.css': 'sass/app.scss'
+                    'public/css/app.css': 'src/styles/app.scss'
                 }
             }
         },
@@ -18,8 +18,8 @@ module.exports = function (grunt) {
                     jshintrc: '.jshintrc'
                 },
                 src: [
-                    'scripts/**/*.js',
-                    '!scripts/lib/**/*.js'
+                    'src/scripts/**/*.js',
+                    '!src/scripts/lib/**/*.js'
                 ]
             }
         },
@@ -29,14 +29,14 @@ module.exports = function (grunt) {
             },
             styles: {
                 files: [
-                    'sass/{,*/}*.scss'
+                    'src/styles/{,*/}*.scss'
                 ],
                 tasks: ['sass']
             },
             scripts: {
                 files: [
-                    'scripts/**/*.js',
-                    '!scripts/lib/**/*.js'
+                    'src/scripts/**/*.js',
+                    '!src/scripts/lib/**/*.js'
                 ],
                 tasks: ['jshint']
             }
